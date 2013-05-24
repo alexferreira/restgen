@@ -1,0 +1,2 @@
+#!/usr/bin/env node
+require('restGen').cli(process.argv.slice(2));
