@@ -1,0 +1,49 @@
+{
+  "name": "restGen",
+  "preferGlobal": true,
+  "version": "1.0.0",
+  "author": "Alex Ferreira <dev@alexferreira.eti.br>",
+  "homepage": "https://github.com/alexferreira/restGen",
+  "_id": "ember-gen@1.0.0",
+  "_from": "ember-gen@",
+  "description": "A micro framework that helps you quickly build RESTful webservice",
+  "readmeFilename": "README.md",
+  "bin": {
+    "restGen": "./bin/restGen"
+  },
+  "main": "./lib/restGen.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexferreira/restGen.git"
+  },
+  "bugs": { 
+    "email" : "dev@alexferreira.eti.br"
+  , "url" : "https://github.com/alexferreira/restGen/issues"
+  },
+  "keywords": [
+    "RESTful",
+    "rest",
+    "json",
+    "api",
+    "service",
+    "rest-template",
+    "webservice",
+    "express",
+    "mongoose"
+  ],
+  "dependencies" : {
+    "jake": "latest",
+    "nodeunit": "latest",
+    "express": "latest",
+    "mongoose": "latest",
+    "jade": "latest",
+    "ejs": "latest"
+  },
+  "directories": {
+    "test": "./tests"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.8.x || >=0.10.x"
+  }
+}
