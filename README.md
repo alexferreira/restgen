@@ -1,7 +1,7 @@
 restGen
 =======
 
-The goal of restGen is to  provide a micro framework that helps you to write a RESTful webservice using NodeJs, Express, Mongoose (MongoDB).
+The goal of restgen is to  provide a micro framework that helps you to write a RESTful webservice using NodeJs, Express, Mongoose (MongoDB).
 
 ## Features
 
@@ -17,7 +17,7 @@ This is the first release, but so far given a mongoose model object it will:
  
 ## Installation
 
-    npm install restGen.js
+    npm install restgen
 
 ### Dependancies
 
@@ -35,7 +35,7 @@ So far this is dependant on:
 
 A tool is provided to auto-generate a project structure for you.  You can use it by executing the following:
 
-    restGen app hello
+    restgen app hello
 
 It will generate a project structure for you like this:
 
@@ -53,7 +53,7 @@ Models are just standard Mongoose models, you can create a new model by creating
 
 You can create an empty model by typing the following from the root of the project:
 
-    restGen model {modelName}
+    restgen model {modelName}
 
 Here's an example of how you'd define one:
 
@@ -75,7 +75,7 @@ You don't have to do anything to create a basic controller, one that provides sh
 
 Here's an example of how you'd define one:
 
-    module.exports.personController = function(baseController, restGen){
+    module.exports.personController = function(baseController, restgen){
         return baseController;
     }
 
@@ -91,7 +91,7 @@ From this basic framework a controller is dynamically built for each model objec
 
 You can extend the base functionality by defining your controller something like this:
 
-    module.exports.userController = function(baseController, restGen){
+    module.exports.userController = function(baseController, restgen){
         //Example of how to extend the base controller if you need to...
         var personController = baseController.extend({
             toString: function(){
