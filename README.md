@@ -17,7 +17,7 @@ This is the first release, but so far given a mongoose model object it will:
  
 ## Installation
 
-    npm install restgen
+    npm install restgen -g
 
 ### Dependancies
 
