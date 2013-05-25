@@ -1,2 +1,37 @@
 #!/usr/bin/env node
-require('restgen').cli(process.argv.slice(2));
+var program = require('commander');
+var newApp = require('../lib/commands/new');
+var generate = require('../lib/commands/generate');
+
+doc = {
+  "usage": "[command] [options]\n\n  Command-Specific Help\n\n    restgen [command] --help",
+  "new": "creates a new RESTful application [dir]",
+  "generate": "generates application files (short-cut alias: \"g\")",
+  "generate.usage": "[options] [name]\n\n    [name]    the under_score name of your object\n    [fields]  field:type pairs, ex: 'name:string age:number broke:boolean'\n    [options] can be combined",
+  "generate.controller": "generates a controller",
+  "generate.model": "generates a model with optional [fields]",
+  "generate.route": "generates a route"
+}
+
+program
+  .version('0.1.0')
+  .usage(doc['usage']);
+
+program
+  .command('new')
+  .description( doc['new'] )
+  .usage('[dir]')
+  .action(function() { newApp.apply(null, arguments); });
+
+program
+  .command('generate|g')
+  .description( doc['generate'] )
+  .usage( doc['generate.usage'] )
+  .option('-c, --controller [name]', doc['generate.controller'])
+  .option('-m, --model [name] [fields]', doc['generate.model'])
+  .option('-r, --route [name]', doc['generate.route'])
+  .action(function() {
+    generate.apply(null, arguments);
+  })
+
+program.parse(process.argv);
