@@ -1,10 +1,10 @@
 {
   "name": "restgen",
   "preferGlobal": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Alex Ferreira <dev@alexferreira.eti.br>",
   "homepage": "https://github.com/alexferreira/restgen",
-  "_id": "ember-gen@1.0.0",
+  "_id": "ember-gen@1.0.1",
   "_from": "ember-gen@",
   "description": "A micro framework that helps you quickly build RESTful webservice",
   "readmeFilename": "README.md",
