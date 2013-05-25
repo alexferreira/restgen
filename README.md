@@ -174,7 +174,7 @@ You can extend the patterns by defining routes for your entity by typing the fol
 So far only two errors are handled, 400 and 404.  If you want to extend this, it is very easy to do.  Just do something like this in your app.js file.
 
     // Add a custom rest error for Forbidden
-    restMVC.RestError.Forbidden = restMVC.RestError.BaseRestError.extend({
+    restgen.RestError.Forbidden = restgen.RestError.BaseRestError.extend({
         name: 'Forbidden',
         title: 'Forbidden',
         description: 'Access denied.',
@@ -184,7 +184,7 @@ So far only two errors are handled, 400 and 404.  If you want to extend this, it
 You can just let the default error template generate the html response, or you can define a customer one like so:
 
     // Add a custom handler for Forbidden
-    restMVC.ErrorMapper['Forbidden'] = function(error, request, response){
+    restgen.ErrorMapper['Forbidden'] = function(error, request, response){
         response.render('resterror.jade', {
             status: error.httpStatus,
             error: error
