@@ -35,7 +35,7 @@ So far this is dependant on:
 
 A tool is provided to auto-generate a project structure for you.  You can use it by executing the following:
 
-    restgen app hello
+    restgen new hello
 
 It will generate a project structure for you like this:
 
@@ -53,36 +53,53 @@ Models are just standard Mongoose models, you can create a new model by creating
 
 You can create an empty model by typing the following from the root of the project:
 
-    restgen model {modelName}
+    restgen generate -m user name:String email:String
+
+the file will be created in the model directory
 
 Here's an example of how you'd define one:
 
     module.exports.user = function (mongoose) {
-  	    var schema = mongoose.Schema;
-    
-  	    mongoose.model('user', new schema({
+      var Schema = mongoose.Schema;
+
+      /* schema for user */
+      userSchema = new Schema ({ 
         name: String,
-        emai: String
-	    }, {versionKey: false}));
-    
-        return mongoose.model('user');
+        email: String
+      }, { versionKey: false });
+
+      /* methods for userSchema */
+
+      // userSchema.method({
+      //   example: function () {
+      //     return true;
+      //   }
+      // });
+
+      return mongoose.model('user', userSchema);
     };
 
 
 ### Creating a Controller
 
-You don't have to do anything to create a basic controller, one that provides show, index, create, update, and destroy is reflectively created for you at runtime.  However if you wanted to extend or change the base controller, you'd create a file inside of the 'controllers' folder and name it the same as your model file.  The file should export an object named {modelName}Controller, for example userController.
+You don't have to do anything to create a basic controller, one that provides show, index, create, update, and destroy is reflectively created for you at runtime.
+
+You can create or extend the controller by typing the following from the root of the project:
+
+    restgen generate -c user
+
+the file will be created in the controller directory
 
 Here's an example of how you'd define one:
 
-    module.exports.personController = function(baseController, restgen){
+    module.exports.userController = function(baseController, restgen){
         return baseController;
     }
 
 From this basic framework a controller is dynamically built for each model object that implements:
 
 
-  * index(),
+  * index()
   * new
   * create(json)
   * show(id)
@@ -93,14 +110,14 @@ You can extend the base functionality by defining your controller something like
 
     module.exports.userController = function(baseController, restgen){
         //Example of how to extend the base controller if you need to...
-        var personController = baseController.extend({
+        var userController = baseController.extend({
             toString: function(){
                 // calls parent "toString" method without arguments
                 return this._super(extendedController, "toString") + this.name;
             }
         });
 
-        return personController;
+        return userController;
     };
 
 ### Routes
@@ -119,6 +136,58 @@ The default routes that get added to your express app are:
 |	PUT    | 	/{modelPluralName}/{id} {FormData}       |	- Updates a record using the {FormData} passed in
 |	PUT    | 	/{modelPluralName}/{id}.json             |	- Updates a record using the {JSON} passed in
 |	DELETE | 	/{modelPluralName}/{id}                  |	- Deletes the specified record
+
+You can extend the patterns by defining routes for your entity by typing the following from the root of the project:
+
+    module.exports.casaRoutes = function(casaController, app, restMvc){
+      
+      app.get('/casa.:format?', function(request, response, next) {
+
+        console.log('Overriden list route');
+
+        casaController.index(function(err, results) {
+          if (err)
+            next(new Error('Internal Server Error: see logs for details: ' +  err), request, response);
+          else {
+            if (request.params.format){
+              if (request.params.format.toLowerCase() == 'json') {
+                  response.send(results.map(function(instance) {
+                      return instance.toObject();
+                  }));
+              }else
+                next(restMvc.RestError.BadRequest.create('The \'' + request.params.format + '\' format is not supported at this time.'), request, response);
+            }
+            else {
+              response.render(controller.name, { collection: results.map(function(instance) {
+                return instance.toObject();
+              })});
+            }
+          }
+        });
+      })
+    };
+
+## Customize RestErrors
+
+So far only two errors are handled, 400 and 404.  If you want to extend this, it is very easy to do.  Just do something like this in your app.js file.
+
+    // Add a custom rest error for Forbidden
+    restMVC.RestError.Forbidden = restMVC.RestError.BaseRestError.extend({
+        name: 'Forbidden',
+        title: 'Forbidden',
+        description: 'Access denied.',
+        httpStatus: 403
+    })
+
+You can just let the default error template generate the html response, or you can define a customer one like so:
+
+    // Add a custom handler for Forbidden
+    restMVC.ErrorMapper['Forbidden'] = function(error, request, response){
+        response.render('resterror.jade', {
+            status: error.httpStatus,
+            error: error
+        });
+    }
 
 
 ## License and Copyright
