@@ -30,6 +30,8 @@ So far this is dependant on:
   * NodeUnit
   * Jade
   * EJS
+  * Commander
+  * Fleck
 
 ## Setup
 
