@@ -37,7 +37,6 @@
     "fleck": "0.5.1",
     "rsvp-that-works": "1.2.0",
     "fs-extra":  "0.6.1",
-    "jake": "latest",
     "nodeunit": "latest",
     "express": "latest",
     "mongoose": "latest",
