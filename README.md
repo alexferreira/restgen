@@ -37,7 +37,7 @@ So far this is dependant on:
 
 A tool is provided to auto-generate a project structure for you.  You can use it by executing the following:
 
-    restgen new hello
+    restgen new demo_app
 
 It will generate a project structure for you like this:
 
@@ -47,8 +47,13 @@ It will generate a project structure for you like this:
     /models/{modelName}.js
     /routes
     /routes/{modelName}.js
+    /tests
     app.js
 
+between the created directory and type the following command to install dependencies
+
+	npm install
+	
 ### Creating a Model
 
 Models are just standard Mongoose models, you can create a new model by creating a javascript file inside of the 'models' folder.  You need to name the file, and the export the same.  Your object will get a Mongoose object passed to it, you use that to create your model.
