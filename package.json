@@ -1,7 +1,7 @@
 {
   "name": "restgen",
   "preferGlobal": true,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Alex Ferreira <dev@alexferreira.eti.br>",
   "homepage": "https://github.com/alexferreira/restgen",
   "_id": "ember-gen@1.0.1",
