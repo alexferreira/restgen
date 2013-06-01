@@ -7,13 +7,14 @@ The goal of restgen is to  provide a micro framework that helps you to write a R
 
 This is the first release, but so far given a mongoose model object it will:
 
- * Handle 'BadRequest', 'NotFound' and '500' errors in a nice clean way.
+ * Handle 'BadRequest', 'NotFound' and 'InternalServer' errors in a nice clean way.
  * Tool to build project skelleton for you
  * Tool to build empty models for you
  * Auto-generate controllers
  * Auto-generate routes
  * Inflection Library
  * Accept header based response rendering
+ * Creates test for model
  
 ## Installation
 
@@ -86,6 +87,11 @@ Here's an example of how you'd define one:
       return mongoose.model('user', userSchema);
     };
 
+### Tests
+
+To run the tests generated automatically, type the following command:
+
+	npm test
 
 ### Creating a Controller
 
@@ -133,16 +139,22 @@ The default routes that get added to your express app are:
 
 | options | object name | file |
 | --------|-------------|------|
-|	GET	   |    /{modelPluralName}/             		 |	- Renders Index view of all entities in the colleciton
-|	GET    | 	/{modelPluralName}/new                   | 	- Renders New view to create a new entity
-|	GET    | 	/{modelPluralName}.json                  |	- Sends a json list of all entities in the colleciton
-|	GET    | 	/{modelPluralName}/{id}                  |	- Renders Show view of a specified entity
-|	GET    | 	/{modelPluralName}/{id}.json             |	- Sends json representation of a specified entity
-|	POST   | 	/{modelPluralName}/ {FormData}           |	- Create a new record using {FormData} passed in
-|	POST   | 	/{modelPluralName}.json              	 |	- Create a new record using the {JSON} passed in
-|	PUT    | 	/{modelPluralName}/{id} {FormData}       |	- Updates a record using the {FormData} passed in
-|	PUT    | 	/{modelPluralName}/{id}.json             |	- Updates a record using the {JSON} passed in
-|	DELETE | 	/{modelPluralName}/{id}                  |	- Deletes the specified record
+|	GET	    |   /{modelPluralName}                       |	- Renders Index view of all entities in the colleciton
+| GET     |   /{modelPluralName}.json                  |  - Sends a json list of all entities in the colleciton
+| GET     |   /{modelPluralName}?limit=10              |  - Renders Index view by limiting the number of entities
+| GET     |   /{modelPluralName}.json?limit=10         |  - Sends a json list of all entities by limiting the number of entities
+| GET     |   /{modelPluralName}?page=1&limit=10       |  - Renders Index view with paging entities
+| GET     |   /{modelPluralName}.json?page=1&limit=10  |  - Sends a json list of all entities with paging entities
+|	GET     | 	/{modelPluralName}/new                   | 	- Renders New view to create a new entity
+| GET     |   /{modelPluralName}/{id}                  |  - Renders Show view of a specified entity
+| GET     |   /{modelPluralName}/{id}.json             |  - Sends json representation of a specified entity
+| GET     |   /{modelPluralName}/{id}/{Action}         |  - Renders a view by the name of the {Action} for the specified entity
+|	POST    | 	/{modelPluralName}/ {FormData}           |	- Create a new record using {FormData} passed in
+|	POST    | 	/{modelPluralName}.json              	   |	- Create a new record using the {JSON} passed in
+|	PUT     | 	/{modelPluralName}/{id} {FormData}       |	- Updates a record using the {FormData} passed in
+|	PUT     | 	/{modelPluralName}/{id}.json             |	- Updates a record using the {JSON} passed in
+| DELETE  |   /{modelPluralName}/{id}                  |  - Deletes the specified record
+|	DELETE  | 	/{modelPluralName}/{id}.json             |	- Deletes the specified record using the {JSON} passed in
 
 You can extend the patterns by defining routes for your entity by typing the following from the root of the project:
 
