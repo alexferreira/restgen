@@ -17,7 +17,7 @@ This is the first release, but so far given a mongoose model object it will:
  
 ## Installation
 
-    npm install restgen -g
+    npm install -g restgen
 
 ### Dependancies
 
@@ -65,7 +65,7 @@ You can create an empty model by typing the following from the root of the proje
 the file will be created in the model directory
 
 Here's an example of how you'd define one:
-
+```javascript
     module.exports.user = function (mongoose) {
       var Schema = mongoose.Schema;
 
@@ -85,7 +85,7 @@ Here's an example of how you'd define one:
 
       return mongoose.model('user', userSchema);
     };
-
+```
 
 ### Creating a Controller
 
@@ -98,11 +98,11 @@ You can create or extend the controller by typing the following from the root of
 the file will be created in the controller directory
 
 Here's an example of how you'd define one:
-
+```javascript
     module.exports.userController = function(baseController, restgen){
         return baseController;
     }
-
+```
 From this basic framework a controller is dynamically built for each model object that implements:
 
 
@@ -114,7 +114,7 @@ From this basic framework a controller is dynamically built for each model objec
   * remove(id)
 
 You can extend the base functionality by defining your controller something like this:
-
+```javascript
     module.exports.userController = function(baseController, restgen){
         //Example of how to extend the base controller if you need to...
         var userController = baseController.extend({
@@ -126,7 +126,7 @@ You can extend the base functionality by defining your controller something like
 
         return userController;
     };
-
+```
 ### Routes
 
 The default routes that get added to your express app are:
@@ -145,7 +145,7 @@ The default routes that get added to your express app are:
 |	DELETE | 	/{modelPluralName}/{id}                  |	- Deletes the specified record
 
 You can extend the patterns by defining routes for your entity by typing the following from the root of the project:
-
+```javascript
     module.exports.casaRoutes = function(casaController, app, restMvc){
       
       app.get('/casa.:format?', function(request, response, next) {
@@ -173,11 +173,11 @@ You can extend the patterns by defining routes for your entity by typing the fol
         });
       })
     };
-
+```
 ## Customize RestErrors
 
 So far only two errors are handled, 400 and 404.  If you want to extend this, it is very easy to do.  Just do something like this in your app.js file.
-
+```javascript
     // Add a custom rest error for Forbidden
     restgen.RestError.Forbidden = restgen.RestError.BaseRestError.extend({
         name: 'Forbidden',
@@ -185,9 +185,9 @@ So far only two errors are handled, 400 and 404.  If you want to extend this, it
         description: 'Access denied.',
         httpStatus: 403
     })
-
+```
 You can just let the default error template generate the html response, or you can define a customer one like so:
-
+```javascript
     // Add a custom handler for Forbidden
     restgen.ErrorMapper['Forbidden'] = function(error, request, response){
         response.render('resterror.jade', {
@@ -195,7 +195,7 @@ You can just let the default error template generate the html response, or you c
             error: error
         });
     }
-
+```
 
 ## License and Copyright
 
