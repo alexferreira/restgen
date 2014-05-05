@@ -7,18 +7,17 @@ The goal of restgen is to  provide a micro framework that helps you to write a R
 
 This is the first release, but so far given a mongoose model object it will:
 
- * Handle 'BadRequest', 'NotFound' and 'InternalServer' errors in a nice clean way.
+ * Handle 'BadRequest', 'NotFound' and '500' errors in a nice clean way.
  * Tool to build project skelleton for you
  * Tool to build empty models for you
  * Auto-generate controllers
  * Auto-generate routes
  * Inflection Library
  * Accept header based response rendering
- * Creates test for model
  
 ## Installation
 
-    npm install restgen -g
+    npm install -g restgen
 
 ### Dependancies
 
@@ -66,7 +65,7 @@ You can create an empty model by typing the following from the root of the proje
 the file will be created in the model directory
 
 Here's an example of how you'd define one:
-
+```javascript
     module.exports.user = function (mongoose) {
       var Schema = mongoose.Schema;
 
@@ -86,12 +85,7 @@ Here's an example of how you'd define one:
 
       return mongoose.model('user', userSchema);
     };
-
-### Tests
-
-To run the tests generated automatically, type the following command:
-
-	npm test
+```
 
 ### Creating a Controller
 
@@ -104,11 +98,11 @@ You can create or extend the controller by typing the following from the root of
 the file will be created in the controller directory
 
 Here's an example of how you'd define one:
-
+```javascript
     module.exports.userController = function(baseController, restgen){
         return baseController;
     }
-
+```
 From this basic framework a controller is dynamically built for each model object that implements:
 
 
@@ -120,7 +114,7 @@ From this basic framework a controller is dynamically built for each model objec
   * remove(id)
 
 You can extend the base functionality by defining your controller something like this:
-
+```javascript
     module.exports.userController = function(baseController, restgen){
         //Example of how to extend the base controller if you need to...
         var userController = baseController.extend({
@@ -132,32 +126,26 @@ You can extend the base functionality by defining your controller something like
 
         return userController;
     };
-
+```
 ### Routes
 
 The default routes that get added to your express app are:
 
 | options | object name | file |
 | --------|-------------|------|
-|	GET	    |   /{modelPluralName}                       |	- Renders Index view of all entities in the colleciton
-| GET     |   /{modelPluralName}.json                  |  - Sends a json list of all entities in the colleciton
-| GET     |   /{modelPluralName}?limit=10              |  - Renders Index view by limiting the number of entities
-| GET     |   /{modelPluralName}.json?limit=10         |  - Sends a json list of all entities by limiting the number of entities
-| GET     |   /{modelPluralName}?page=1&limit=10       |  - Renders Index view with paging entities
-| GET     |   /{modelPluralName}.json?page=1&limit=10  |  - Sends a json list of all entities with paging entities
-|	GET     | 	/{modelPluralName}/new                   | 	- Renders New view to create a new entity
-| GET     |   /{modelPluralName}/{id}                  |  - Renders Show view of a specified entity
-| GET     |   /{modelPluralName}/{id}.json             |  - Sends json representation of a specified entity
-| GET     |   /{modelPluralName}/{id}/{Action}         |  - Renders a view by the name of the {Action} for the specified entity
-|	POST    | 	/{modelPluralName}/ {FormData}           |	- Create a new record using {FormData} passed in
-|	POST    | 	/{modelPluralName}.json              	   |	- Create a new record using the {JSON} passed in
-|	PUT     | 	/{modelPluralName}/{id} {FormData}       |	- Updates a record using the {FormData} passed in
-|	PUT     | 	/{modelPluralName}/{id}.json             |	- Updates a record using the {JSON} passed in
-| DELETE  |   /{modelPluralName}/{id}                  |  - Deletes the specified record
-|	DELETE  | 	/{modelPluralName}/{id}.json             |	- Deletes the specified record using the {JSON} passed in
+|	GET	   |    /{modelPluralName}/             		 |	- Renders Index view of all entities in the colleciton
+|	GET    | 	/{modelPluralName}/new                   | 	- Renders New view to create a new entity
+|	GET    | 	/{modelPluralName}.json                  |	- Sends a json list of all entities in the colleciton
+|	GET    | 	/{modelPluralName}/{id}                  |	- Renders Show view of a specified entity
+|	GET    | 	/{modelPluralName}/{id}.json             |	- Sends json representation of a specified entity
+|	POST   | 	/{modelPluralName}/ {FormData}           |	- Create a new record using {FormData} passed in
+|	POST   | 	/{modelPluralName}.json              	 |	- Create a new record using the {JSON} passed in
+|	PUT    | 	/{modelPluralName}/{id} {FormData}       |	- Updates a record using the {FormData} passed in
+|	PUT    | 	/{modelPluralName}/{id}.json             |	- Updates a record using the {JSON} passed in
+|	DELETE | 	/{modelPluralName}/{id}                  |	- Deletes the specified record
 
 You can extend the patterns by defining routes for your entity by typing the following from the root of the project:
-
+```javascript
     module.exports.casaRoutes = function(casaController, app, restMvc){
       
       app.get('/casa.:format?', function(request, response, next) {
@@ -185,11 +173,11 @@ You can extend the patterns by defining routes for your entity by typing the fol
         });
       })
     };
-
+```
 ## Customize RestErrors
 
 So far only two errors are handled, 400 and 404.  If you want to extend this, it is very easy to do.  Just do something like this in your app.js file.
-
+```javascript
     // Add a custom rest error for Forbidden
     restgen.RestError.Forbidden = restgen.RestError.BaseRestError.extend({
         name: 'Forbidden',
@@ -197,9 +185,9 @@ So far only two errors are handled, 400 and 404.  If you want to extend this, it
         description: 'Access denied.',
         httpStatus: 403
     })
-
+```
 You can just let the default error template generate the html response, or you can define a customer one like so:
-
+```javascript
     // Add a custom handler for Forbidden
     restgen.ErrorMapper['Forbidden'] = function(error, request, response){
         response.render('resterror.jade', {
@@ -207,7 +195,7 @@ You can just let the default error template generate the html response, or you c
             error: error
         });
     }
-
+```
 
 ## License and Copyright
 
